@@ -1,5 +1,5 @@
 %define name gnome-screensaver
-%define version 2.18.0
+%define version 2.18.1
 %define release %mkrel 1
 
 Summary: GNOME Screensaver
@@ -164,5 +164,3 @@ rm -rf $RPM_BUILD_ROOT
 %_datadir/%name/
 %_libdir/pkgconfig/*.pc
 %_menudir/%name
-
-
