@@ -25,6 +25,7 @@ BuildRequires: libgnomeui2-devel
 BuildRequires: libglade2.0-devel
 BuildRequires: libgnome-menu-devel
 BuildRequires: libgnomekbd-devel
+BuildRequires: libnotify-devel
 BuildRequires: libxmu-devel
 BuildRequires: libexif-devel
 BuildRequires: libmesagl-devel
