@@ -1,21 +1,20 @@
 %define name gnome-screensaver
-%define version 2.19.1.1
-%define release %mkrel 3
+%define version 2.19.6
+%define release %mkrel 1
 
 Summary: GNOME Screensaver
 Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: http://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
-Source1: mandriva-slideshow.desktop
-# (fc) 0.0.20-2mdk enable user switching
-Patch1: gnome-screensaver-0.0.20-userswitching.patch
-# (fc) 2.15.7-2mdv allow sort images list
-Patch2: gnome-screensaver-2.17.4-sort.patch
-# (fc) 2.15.7-2mdv allow solid background for images
-Patch3: gnome-screensaver-2.17.5-solidbg.patch
+Source1: ia-ora-free-slideshow.desktop
+Source2: ia-ora-orange-slideshow.desktop
+Source3: ia-ora-blue-slideshow.desktop
+Source4: ia-ora-gray-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
+# (fc) 2.19.6-1mdv allow to disable image maximization
+Patch5: gnome-screensaver-2.19-nomaximize.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -52,10 +51,8 @@ It is designed to support:
 
 %prep
 %setup -q
-%patch1 -p1 -b .userswitching
-%patch2 -p1 -b .sort
-%patch3 -p1 -b .solidbg
 %patch4 -p1 -b .default
+%patch5 -p1 -b .nomaximize
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
@@ -73,21 +70,7 @@ sed -ie 's@b=`basename ${FILE} .xml`@b=xscreensaver-`basename ${FILE} .xml`@' \
 install -m755 data/migrate-xscreensaver-config.sh $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
 install -m644 data/xscreensaver-config.xsl $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
 
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
-
-#menu
-install -d -m 755 $RPM_BUILD_ROOT%{_menudir}
-cat >$RPM_BUILD_ROOT%{_menudir}/%{name} <<EOF
-?package(%{name}): \
-	command="%{_bindir}/gnome-screensaver-preferences" \
-	needs="gnome" \
-	section="System/Configuration/GNOME" \
-	icon="screensaver" \
-	title="Screensaver" \
-	longtitle="Set your screensaver preferences" \
-	startup_notify="true" \
-	xdg="true"
-EOF
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
@@ -100,6 +83,18 @@ desktop-file-install --vendor="" \
 
 %post
 %update_menus
+if [ ! -d %{_sysconfdir}/gconf/gconf.xml.local-defaults/apps/gnome-screensaver -a "x$META_CLASS" != "x" ]; then
+ unset SCREENSAVER
+ case "$META_CLASS" in
+  *server) SCREENSAVER='[screensavers-ia-ora-gray-slideshow]' ;;
+  *desktop) SCREENSAVER='[screensavers-ia-ora-orange-slideshow]' ;;
+  *download) SCREENSAVER='[screensavers-ia-ora-free-slideshow]';;
+ esac
+
+  if [ "x$SCREENSAVER" != "x" ]; then 
+  %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --type=list --list-type=string --set /apps/gnome-screensaver/themes "$SCREENSAVER" > /dev/null
+  fi
+fi
 %post_install_gconf_schemas %{schemas}
 
 %triggerin -- xscreensaver-base xscreensaver-gl xscreensaver-extrusion xscreensaver-matrix
@@ -164,4 +159,3 @@ rm -rf $RPM_BUILD_ROOT
 %_datadir/pixmaps/*.svg
 %_datadir/%name/
 %_libdir/pkgconfig/*.pc
-%_menudir/%name
