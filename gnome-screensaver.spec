@@ -1,5 +1,5 @@
 %define name gnome-screensaver
-%define version 2.19.6
+%define version 2.19.7
 %define release %mkrel 1
 
 Summary: GNOME Screensaver
@@ -13,8 +13,6 @@ Source3: ia-ora-blue-slideshow.desktop
 Source4: ia-ora-gray-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
-# (fc) 2.19.6-1mdv allow to disable image maximization
-Patch5: gnome-screensaver-2.19-nomaximize.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -52,7 +50,6 @@ It is designed to support:
 %prep
 %setup -q
 %patch4 -p1 -b .default
-%patch5 -p1 -b .nomaximize
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
