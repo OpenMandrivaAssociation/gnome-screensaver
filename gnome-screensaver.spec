@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.19.7
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -11,6 +11,7 @@ Source1: ia-ora-free-slideshow.desktop
 Source2: ia-ora-orange-slideshow.desktop
 Source3: ia-ora-blue-slideshow.desktop
 Source4: ia-ora-gray-slideshow.desktop
+Source5: ia-ora-one-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
 
@@ -70,13 +71,29 @@ install -m644 data/xscreensaver-config.xsl $RPM_BUILD_ROOT%{_datadir}/gnome-scre
 install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
 
 desktop-file-install --vendor="" \
-  --remove-category="Application" \
-  --add-category="X-MandrivaLinux-System-Configuration-GNOME" \
+  --add-category="GTK" \
+  --add-category="GNOME" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
 
 %find_lang %name
 
 %define schemas %name
+
+# update default screensaver theme on distribution upgrade
+%triggerpostun -- gnome-screensaver < 2.19.7
+if [ "x$META_CLASS" != "x" ]; then
+ unset SCREENSAVER
+ case "$META_CLASS" in
+  *server) SCREENSAVER='[screensavers-ia-ora-gray-slideshow]' ;;
+  *desktop) SCREENSAVER='[screensavers-ia-ora-one-slideshow]' ;;
+  *download) SCREENSAVER='[screensavers-ia-ora-free-slideshow]';;
+ esac
+
+  if [ "x$SCREENSAVER" != "x" ]; then 
+  %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --type=list --list-type=string --set /apps/gnome-screensaver/themes "$SCREENSAVER" > /dev/null
+  fi
+fi
+
 
 %post
 %update_menus
@@ -84,7 +101,7 @@ if [ ! -d %{_sysconfdir}/gconf/gconf.xml.local-defaults/apps/gnome-screensaver -
  unset SCREENSAVER
  case "$META_CLASS" in
   *server) SCREENSAVER='[screensavers-ia-ora-gray-slideshow]' ;;
-  *desktop) SCREENSAVER='[screensavers-ia-ora-orange-slideshow]' ;;
+  *desktop) SCREENSAVER='[screensavers-ia-ora-one-slideshow]' ;;
   *download) SCREENSAVER='[screensavers-ia-ora-free-slideshow]';;
  esac
 
