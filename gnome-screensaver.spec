@@ -1,19 +1,24 @@
 %define name gnome-screensaver
 %define version 2.20.0
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: GNOME Screensaver
 Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: http://ftp.gnome.org/pub/GNOME/sources/%name/%{name}-%{version}.tar.bz2
-Source1: ia-ora-free-slideshow.desktop
-Source2: ia-ora-orange-slideshow.desktop
-Source3: ia-ora-blue-slideshow.desktop
+Source1: ia-ora-slideshow.desktop
+Source2: ia-ora-blue-slideshow.desktop
+Source3: ia-ora-orange-slideshow.desktop
 Source4: ia-ora-gray-slideshow.desktop
-Source5: ia-ora-one-slideshow.desktop
+Source5: ia-ora-free-slideshow.desktop
+Source6: ia-ora-one-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
+# (fc) 2.20.0-2mdv disable profiling
+Patch5: gnome-screensaver-2.20.0-disableprofiling.patch
+# (fc) 2.20.0-2mdv really order slideshow when requested
+Patch6: gnome-screensaver-2.20.0-fixorder.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -38,6 +43,7 @@ BuildRequires: gnome-common
 BuildRequires: desktop-file-utils
 Requires: libxslt-proc
 Requires: dbus-x11
+Suggests: mandriva-theme-screensaver
 
 %description
 gnome-screensaver is a screen saver and locker that aims to have
@@ -51,6 +57,8 @@ It is designed to support:
 %prep
 %setup -q
 %patch4 -p1 -b .default
+%patch5 -p1 -b .disableprofiling
+%patch6 -p1 -b .fixorder
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
@@ -68,7 +76,7 @@ sed -ie 's@b=`basename ${FILE} .xml`@b=xscreensaver-`basename ${FILE} .xml`@' \
 install -m755 data/migrate-xscreensaver-config.sh $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
 install -m644 data/xscreensaver-config.xsl $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
 
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
 
 desktop-file-install --vendor="" \
   --add-category="GTK" \
@@ -79,36 +87,13 @@ desktop-file-install --vendor="" \
 
 %define schemas %name
 
-# update default screensaver theme on distribution upgrade
-%triggerpostun -- gnome-screensaver < 2.19.7
-if [ "x$META_CLASS" != "x" ]; then
- unset SCREENSAVER
- case "$META_CLASS" in
-  *server) SCREENSAVER='[screensavers-ia-ora-gray-slideshow]' ;;
-  *desktop) SCREENSAVER='[screensavers-ia-ora-one-slideshow]' ;;
-  *download) SCREENSAVER='[screensavers-ia-ora-free-slideshow]';;
- esac
-
-  if [ "x$SCREENSAVER" != "x" ]; then 
-  %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --type=list --list-type=string --set /apps/gnome-screensaver/themes "$SCREENSAVER" > /dev/null
-  fi
-fi
+# unset default screensaver
+%triggerpostun -- gnome-screensaver < 2.20.0-2mdv
+  %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --unset /apps/gnome-screensaver/themes > /dev/null
 
 
 %post
 %update_menus
-if [ ! -d %{_sysconfdir}/gconf/gconf.xml.local-defaults/apps/gnome-screensaver -a "x$META_CLASS" != "x" ]; then
- unset SCREENSAVER
- case "$META_CLASS" in
-  *server) SCREENSAVER='[screensavers-ia-ora-gray-slideshow]' ;;
-  *desktop) SCREENSAVER='[screensavers-ia-ora-one-slideshow]' ;;
-  *download) SCREENSAVER='[screensavers-ia-ora-free-slideshow]';;
- esac
-
-  if [ "x$SCREENSAVER" != "x" ]; then 
-  %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --type=list --list-type=string --set /apps/gnome-screensaver/themes "$SCREENSAVER" > /dev/null
-  fi
-fi
 %post_install_gconf_schemas %{schemas}
 
 %triggerin -- xscreensaver-base xscreensaver-gl xscreensaver-extrusion xscreensaver-matrix
