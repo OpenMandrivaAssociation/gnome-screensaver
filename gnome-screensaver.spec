@@ -23,7 +23,6 @@ Patch6: gnome-screensaver-2.20.0-fixorder.patch
 License: GPL
 Group: Graphical desktop/GNOME
 Url: http://www.gnome.org
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: libgnomeui2-devel
 BuildRequires: libglade2.0-devel
 BuildRequires: libgnome-menu-devel
