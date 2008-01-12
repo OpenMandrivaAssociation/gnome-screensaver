@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.20.0
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary: GNOME Screensaver
 Name: %{name}
