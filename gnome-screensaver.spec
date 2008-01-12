@@ -19,6 +19,8 @@ Patch4: gnome-screensaver-2.15.7-default.patch
 Patch5: gnome-screensaver-2.20.0-disableprofiling.patch
 # (fc) 2.20.0-2mdv really order slideshow when requested
 Patch6: gnome-screensaver-2.20.0-fixorder.patch
+# (fc) 2.20.0-4mdv save gamma ramp before modifying it (GNOME bug #342850) (John Bryant)
+Patch7: gnome-screensaver-2.20-fixgammaramp.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -59,6 +61,7 @@ It is designed to support:
 %patch4 -p1 -b .default
 %patch5 -p1 -b .disableprofiling
 %patch6 -p1 -b .fixorder
+%patch7 -p1 -b .fixgammaramp
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
