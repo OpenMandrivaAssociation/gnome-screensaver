@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.20.0
-%define release %mkrel 4
+%define release %mkrel 5
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -21,6 +21,8 @@ Patch5: gnome-screensaver-2.20.0-disableprofiling.patch
 Patch6: gnome-screensaver-2.20.0-fixorder.patch
 # (fc) 2.20.0-4mdv save gamma ramp before modifying it (GNOME bug #342850) (John Bryant)
 Patch7: gnome-screensaver-2.20-fixgammaramp.patch
+# (fc) add support for gnome-keyring (Fedora)
+Patch8: gnome-screensaver-2.20-keyring.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -62,6 +64,7 @@ It is designed to support:
 %patch5 -p1 -b .disableprofiling
 %patch6 -p1 -b .fixorder
 %patch7 -p1 -b .fixgammaramp
+%patch8 -p1 -b .keyring
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
