@@ -1,6 +1,6 @@
 %define name gnome-screensaver
-%define version 2.20.0
-%define release %mkrel 5
+%define version 2.21.6
+%define release %mkrel 1
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -15,10 +15,6 @@ Source5: ia-ora-free-slideshow.desktop
 Source6: ia-ora-one-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
-# (fc) 2.20.0-2mdv disable profiling
-Patch5: gnome-screensaver-2.20.0-disableprofiling.patch
-# (fc) 2.20.0-2mdv really order slideshow when requested
-Patch6: gnome-screensaver-2.20.0-fixorder.patch
 # (fc) 2.20.0-4mdv save gamma ramp before modifying it (GNOME bug #342850) (John Bryant)
 Patch7: gnome-screensaver-2.20-fixgammaramp.patch
 # (fc) add support for gnome-keyring (Fedora)
@@ -61,8 +57,6 @@ It is designed to support:
 %prep
 %setup -q
 %patch4 -p1 -b .default
-%patch5 -p1 -b .disableprofiling
-%patch6 -p1 -b .fixorder
 %patch7 -p1 -b .fixgammaramp
 %patch8 -p1 -b .keyring
 
@@ -154,6 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %_sysconfdir/pam.d/gnome-screensaver
 %_sysconfdir/gconf/schemas/%name.schemas
 %_bindir/*
+%_mandir/man1/gnome-screensaver*
 %_libexecdir/gnome-screensaver-dialog
 %_libexecdir/gnome-screensaver-gl-helper
 %_libdir/%name
