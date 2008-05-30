@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.22.2
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -61,7 +61,7 @@ It is designed to support:
 %patch4 -p1 -b .default
 %patch7 -p1 -b .fixgammaramp
 %patch8 -p1 -b .keyring
-%patch9 -p0 -b .drop_setgid
+\%patch9 -p0 -b .drop_setgid
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
