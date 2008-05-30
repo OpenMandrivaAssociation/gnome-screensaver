@@ -19,6 +19,8 @@ Patch4: gnome-screensaver-2.15.7-default.patch
 Patch7: gnome-screensaver-2.20-fixgammaramp.patch
 # (fc) add support for gnome-keyring (Fedora)
 Patch8: gnome-screensaver-2.20-keyring.patch
+# (vdanen) drops setgid calls to work with tcb auth
+Patch9: gnome-screensaver-2.22.2-drop_setgid.patch
 
 License: GPL
 Group: Graphical desktop/GNOME
@@ -59,6 +61,7 @@ It is designed to support:
 %patch4 -p1 -b .default
 %patch7 -p1 -b .fixgammaramp
 %patch8 -p1 -b .keyring
+%patch9 -p0 -b .drop_setgid
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
