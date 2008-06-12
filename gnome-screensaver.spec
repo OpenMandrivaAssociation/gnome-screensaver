@@ -95,9 +95,11 @@ desktop-file-install --vendor="" \
   %{_bindir}/gconftool-2 --config-source=xml::/etc/gconf/gconf.xml.local-defaults/ --direct --unset /apps/gnome-screensaver/themes > /dev/null
 
 
+%if %mdkversion < 200900
 %post
 %update_menus
 %post_install_gconf_schemas %{schemas}
+%endif
 
 %triggerin -- xscreensaver-base xscreensaver-gl xscreensaver-extrusion xscreensaver-matrix
 (  cd %{_datadir}/applications/screensavers ; \
@@ -138,8 +140,10 @@ done)
 %preun
 %preun_uninstall_gconf_schemas %{schemas}
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
