@@ -1,5 +1,5 @@
 %define name gnome-screensaver
-%define version 2.22.2
+%define version 2.23.2
 %define release %mkrel 2
 
 Summary: GNOME Screensaver
@@ -13,16 +13,15 @@ Source3: ia-ora-orange-slideshow.desktop
 Source4: ia-ora-gray-slideshow.desktop
 Source5: ia-ora-free-slideshow.desktop
 Source6: ia-ora-one-slideshow.desktop
+Patch: gnome-screensaver-2.23.2-missing-header.patch
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
-# (fc) 2.20.0-4mdv save gamma ramp before modifying it (GNOME bug #342850) (John Bryant)
-Patch7: gnome-screensaver-2.20-fixgammaramp.patch
 # (fc) add support for gnome-keyring (Fedora)
 Patch8: gnome-screensaver-2.20-keyring.patch
 # (vdanen) drops setgid calls to work with tcb auth
 Patch9: gnome-screensaver-2.22.2-drop_setgid.patch
 
-License: GPL
+License: GPLv2+
 Group: Graphical desktop/GNOME
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -30,6 +29,7 @@ BuildRequires: libgnomeui2-devel
 BuildRequires: libglade2.0-devel
 BuildRequires: libgnome-menu-devel
 BuildRequires: libgnomekbd-devel
+BuildRequires: gnome-desktop-devel >= 2.23.2
 BuildRequires: libnotify-devel
 BuildRequires: libxmu-devel
 BuildRequires: libexif-devel
@@ -58,8 +58,8 @@ It is designed to support:
 
 %prep
 %setup -q
+%patch -p1
 %patch4 -p1 -b .default
-%patch7 -p1 -b .fixgammaramp
 %patch8 -p1 -b .keyring
 %patch9 -p0 -b .drop_setgid
 
