@@ -1,6 +1,6 @@
 %define name gnome-screensaver
-%define version 2.23.3
-%define release %mkrel 2
+%define version 2.23.90
+%define release %mkrel 1
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -13,7 +13,6 @@ Source3: ia-ora-orange-slideshow.desktop
 Source4: ia-ora-gray-slideshow.desktop
 Source5: ia-ora-free-slideshow.desktop
 Source6: ia-ora-one-slideshow.desktop
-Patch: gnome-screensaver-2.23.2-missing-header.patch
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
 # (fc) add support for gnome-keyring (Fedora)
@@ -58,7 +57,6 @@ It is designed to support:
 
 %prep
 %setup -q
-%patch -p1
 %patch4 -p1 -b .default
 %patch8 -p1 -b .keyring
 #%patch9 -p0 -b .drop_setgid
