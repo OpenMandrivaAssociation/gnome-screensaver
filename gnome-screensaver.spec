@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.24.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -19,6 +19,8 @@ Patch4: gnome-screensaver-2.15.7-default.patch
 Patch8: gnome-screensaver-2.20-keyring.patch
 # (vdanen) drops setgid calls to work with tcb auth
 Patch9: gnome-screensaver-2.22.2-drop_setgid.patch
+# (fc) hardcode path for screensaver helpers (Mdv bug #44321)
+Patch10: gnome-screensaver-2.24.1-saverdir.patch
 
 License: GPLv2+
 Group: Graphical desktop/GNOME
@@ -60,6 +62,10 @@ It is designed to support:
 %patch4 -p1 -b .default
 %patch8 -p1 -b .keyring
 #%patch9 -p0 -b .drop_setgid
+%patch10 -p1 -b .saverdir
+
+#needed by patch10
+autoreconf
 
 %build
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
@@ -78,6 +84,8 @@ install -m755 data/migrate-xscreensaver-config.sh $RPM_BUILD_ROOT%{_datadir}/gno
 install -m644 data/xscreensaver-config.xsl $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
 
 install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
+
+sed -i -e 's@Exec=slideshow@Exec=%{_libdir}/gnome-screensaver/slideshow@g' $RPM_BUILD_ROOT%{_datadir}/applications/screensavers/ia-ora*.desktop
 
 desktop-file-install --vendor="" \
   --add-category="GTK" \
