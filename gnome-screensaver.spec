@@ -34,6 +34,7 @@ BuildRequires: libxmu-devel
 BuildRequires: libexif-devel
 BuildRequires: libmesagl-devel
 BuildRequires: libxscrnsaver-devel
+BuildRequires: libxtst-devel
 BuildRequires: libxxf86misc-devel
 BuildRequires: libxxf86vm-devel
 BuildRequires: dbus-devel >= 0.30
