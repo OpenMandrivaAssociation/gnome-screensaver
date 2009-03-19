@@ -1,6 +1,6 @@
 %define name gnome-screensaver
-%define version 2.25.2
-%define release %mkrel 2
+%define version 2.26.0
+%define release %mkrel 1
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -15,8 +15,6 @@ Source5: ia-ora-free-slideshow.desktop
 Source6: ia-ora-one-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
-# (fc) add support for gnome-keyring (Fedora)
-Patch8: gnome-screensaver-2.20-keyring.patch
 # (vdanen) drops setgid calls to work with tcb auth
 Patch9: gnome-screensaver-2.22.2-drop_setgid.patch
 
@@ -59,7 +57,6 @@ It is designed to support:
 %prep
 %setup -q
 %patch4 -p1 -b .default
-%patch8 -p1 -b .keyring
 #%patch9 -p0 -b .drop_setgid
 
 %build
