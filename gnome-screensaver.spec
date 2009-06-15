@@ -1,5 +1,5 @@
 %define name gnome-screensaver
-%define version 2.26.1
+%define version 2.27.0
 %define release %mkrel 1
 
 Summary: GNOME Screensaver
@@ -152,6 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %_sysconfdir/xdg/menus/gnome-screensavers.menu
 %config(noreplace) %_sysconfdir/pam.d/gnome-screensaver
 %_sysconfdir/gconf/schemas/%name.schemas
+%_sysconfdir/xdg/autostart/%name.desktop
 %_bindir/*
 %_mandir/man1/gnome-screensaver*
 %_libexecdir/gnome-screensaver-dialog
