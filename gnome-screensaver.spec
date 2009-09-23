@@ -1,6 +1,6 @@
 %define name gnome-screensaver
-%define version 2.27.0
-%define release %mkrel 2
+%define version 2.28.0
+%define release %mkrel 1
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -161,7 +161,8 @@ rm -rf $RPM_BUILD_ROOT
 %_datadir/desktop-directories/gnome-screensaver.directory
 %_datadir/applications/gnome-screensaver-preferences.desktop
 %_datadir/applications/screensavers
-%_datadir/pixmaps/backgrounds/cosmos
+%_datadir/gnome-background-properties/cosmos.xml
+%_datadir/backgrounds/cosmos
 %_datadir/pixmaps/*.svg
 %_datadir/%name/
 %_libdir/pkgconfig/*.pc
