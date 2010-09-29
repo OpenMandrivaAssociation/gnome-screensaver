@@ -1,5 +1,5 @@
 %define name gnome-screensaver
-%define version 2.30.1
+%define version 2.30.2
 %define release %mkrel 1
 
 Summary: GNOME Screensaver
@@ -158,6 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %_libexecdir/gnome-screensaver-dialog
 %_libexecdir/gnome-screensaver-gl-helper
 %_libdir/%name
+%_datadir/dbus-1/services/org.gnome.ScreenSaver.service
 %_datadir/desktop-directories/gnome-screensaver.directory
 %_datadir/applications/gnome-screensaver-preferences.desktop
 %_datadir/applications/screensavers
