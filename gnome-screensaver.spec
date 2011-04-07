@@ -1,6 +1,6 @@
 %define name gnome-screensaver
 %define version 2.30.2
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: GNOME Screensaver
 Name: %{name}
@@ -15,27 +15,30 @@ Source5: ia-ora-free-slideshow.desktop
 Source6: ia-ora-one-slideshow.desktop
 # (fc) 2.15.7-2mdv change default settings
 Patch4: gnome-screensaver-2.15.7-default.patch
-# (vdanen) drops setgid calls to work with tcb auth
-Patch9: gnome-screensaver-2.22.2-drop_setgid.patch
-
+# (fwang) patch11..17 , from gentoo
+Patch11: gnome-screensaver-2.30.2-popsquares-header.patch
+Patch12: gnome-screensaver-2.30.2-name-manager.patch
+Patch13: gnome-screensaver-2.30.2-nvidia-fade2.patch
+Patch14: gnome-screensaver-2.30.2-libxklavier-configure.patch
+Patch15: gnome-screensaver-2.30.2-prevent-twice.patch
+Patch16: gnome-screensaver-2.30.2-libnotify-0.7.patch
+Patch17: gnome-screensaver-2.30.2-nvidia-fade.patch
 License: GPLv2+
 Group: Graphical desktop/GNOME
 Url: http://www.gnome.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: libgnomeui2-devel
-BuildRequires: libglade2.0-devel
 BuildRequires: libgnome-menu-devel
 BuildRequires: libgnomekbd-devel
 BuildRequires: gnome-desktop-devel >= 2.23.2
 BuildRequires: libnotify-devel
-BuildRequires: libxmu-devel
-BuildRequires: libexif-devel
-BuildRequires: libmesagl-devel
-BuildRequires: libxscrnsaver-devel
-BuildRequires: libxtst-devel
+BuildRequires: GL-devel
+BuildRequires: libx11-devel
+BuildRequires: libxext-devel
 BuildRequires: libxxf86misc-devel
 BuildRequires: libxxf86vm-devel
-BuildRequires: dbus-devel >= 0.30
+BuildRequires: dbus-glib-devel >= 0.30
+BuildRequires: libxklavier-devel
+BuildRequires: libGConf2-devel GConf2
 BuildRequires: pam-devel
 BuildRequires: gdm
 BuildRequires: intltool
@@ -56,10 +59,17 @@ It is designed to support:
 
 %prep
 %setup -q
-%patch4 -p1 -b .default
-#%patch9 -p0 -b .drop_setgid
+%patch4 -p1
+%patch11 -p0
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+%patch16 -p0
+%patch17 -p1
 
 %build
+NOCONFIGURE=yes gnome-autogen.sh
 %configure2_5x --disable-more-warnings --with-xscreensaverdir=%{_datadir}/xscreensaver/config --with-xscreensaverhackdir=%{_libdir}/xscreensaver
 %make
 
