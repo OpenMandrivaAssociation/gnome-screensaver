@@ -74,7 +74,7 @@ NOCONFIGURE=yes gnome-autogen.sh
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
 
 sed -ie 's@XSL=${DIST_BIN}/xscreensaver-config.xsl@XSL=%{_datadir}/gnome-screensaver/xscreensaver-config.xsl@' \
@@ -82,17 +82,17 @@ sed -ie 's@XSL=${DIST_BIN}/xscreensaver-config.xsl@XSL=%{_datadir}/gnome-screens
 sed -ie 's@b=`basename ${FILE} .xml`@b=xscreensaver-`basename ${FILE} .xml`@' \
         data/migrate-xscreensaver-config.sh
 
-install -m755 data/migrate-xscreensaver-config.sh $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
-install -m644 data/xscreensaver-config.xsl $RPM_BUILD_ROOT%{_datadir}/gnome-screensaver
+install -m755 data/migrate-xscreensaver-config.sh %{buildroot}%{_datadir}/gnome-screensaver
+install -m644 data/xscreensaver-config.xsl %{buildroot}%{_datadir}/gnome-screensaver
 
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/applications/screensavers
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/applications/screensavers
 
-sed -i -e 's@Exec=slideshow@Exec=%{_libdir}/gnome-screensaver/slideshow@g' $RPM_BUILD_ROOT%{_datadir}/applications/screensavers/ia-ora*.desktop
+sed -i -e 's@Exec=slideshow@Exec=%{_libdir}/gnome-screensaver/slideshow@g' %{buildroot}%{_datadir}/applications/screensavers/ia-ora*.desktop
 
 desktop-file-install --vendor="" \
   --add-category="GTK" \
   --add-category="GNOME" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/*.desktop
 
 %find_lang %name
 
@@ -154,7 +154,7 @@ done)
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %name.lang
 %defattr(-,root,root)
