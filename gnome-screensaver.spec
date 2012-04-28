@@ -1,10 +1,6 @@
-%define name gnome-screensaver
-%define version 2.30.2
-%define release %mkrel 3
-
-Summary: GNOME Screensaver
 Name: gnome-screensaver
-Version: 3.2.2
+Summary: GNOME Screensaver
+Version: 3.4.1
 Release: 1
 License: GPLv2+
 Group: Graphical desktop/GNOME
