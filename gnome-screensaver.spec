@@ -1,11 +1,11 @@
-Name: gnome-screensaver
-Summary: GNOME Screensaver
-Version: 3.4.1
-Release: 1
-License: GPLv2+
-Group: Graphical desktop/GNOME
-Url: http://www.gnome.org
-Source0: http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
+Name:		gnome-screensaver
+Summary:	GNOME Screensaver
+Version:	3.4.2
+Release:	1
+License:	GPLv2+
+Group:		Graphical desktop/GNOME
+Url:		http://www.gnome.org
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.xz
 
 BuildRequires:	desktop-file-utils
 BuildRequires:	intltool
@@ -23,9 +23,9 @@ BuildRequires:	pkgconfig(xxf86misc)
 BuildRequires:	pkgconfig(xxf86vm)
 BuildRequires:	pkgconfig(xtst)
 
-Requires: xsltproc
-Requires: dbus-x11
-Suggests: mandriva-theme-screensaver
+Requires:	xsltproc
+Requires:	dbus-x11
+Suggests:	mandriva-theme-screensaver
 
 %description
 gnome-screensaver is a screen saver and locker that aims to have
