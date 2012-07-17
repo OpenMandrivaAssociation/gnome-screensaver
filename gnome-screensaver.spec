@@ -1,6 +1,6 @@
 Name:		gnome-screensaver
 Summary:	GNOME Screensaver
-Version:	3.4.3
+Version:	3.4.4
 Release:	1
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
