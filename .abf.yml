@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   gnome-screensaver-3.6.0.tar.xz: 5f5507e9b110af647b566c1cc5b1ff684623e353
+sources:
+  gnome-screensaver-3.6.1.tar.xz: 22af6dfa9c55903a7624bc093718ef472b86cb51
