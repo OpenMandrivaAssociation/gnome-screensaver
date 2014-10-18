@@ -43,7 +43,7 @@ It is designed to support:
 %apply_patches
 
 %build
-%configure2_5x \
+%configure \
 	--disable-more-warnings
 
 %make
