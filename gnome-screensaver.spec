@@ -4,7 +4,7 @@
 Summary:	GNOME Screensaver
 Name:		gnome-screensaver
 Version:	3.6.1
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		Graphical desktop/GNOME
 Url:		http://www.gnome.org
@@ -47,10 +47,10 @@ It is designed to support:
 %configure \
 	--disable-more-warnings
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 %find_lang %{name}
 
