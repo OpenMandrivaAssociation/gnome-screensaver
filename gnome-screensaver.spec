@@ -9,6 +9,8 @@ License:	GPLv2+
 Group:		Graphical desktop/GNOME
 Url:		http://www.gnome.org
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-screensaver/%{url_ver}/%{name}-%{version}.tar.xz
+Patch101:	0001-Avoid-SEGV-in-gs_fade_reset.patch
+Patch200:	gnome-desktop335.patch
 
 BuildRequires:	desktop-file-utils
 BuildRequires:	intltool
