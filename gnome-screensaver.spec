@@ -12,6 +12,11 @@ Source0:	https://ftp.gnome.org/pub/GNOME/sources/gnome-screensaver/%{url_ver}/%{
 Patch101:	0001-Avoid-SEGV-in-gs_fade_reset.patch
 Patch200:	gnome-desktop335.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	desktop-file-utils
 BuildRequires:	intltool
 BuildRequires:	pam-devel
